@@ -4,16 +4,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-
     static DinnerConstructor dc;
     static Scanner scanner;
 
-
     public static void main(String[] args) {
         dc = new DinnerConstructor();
-        dc.testDishes();
+        dc.addTestDishes(); //сразу заполнил мапу для удобства. Типы: q, w, e
         scanner = new Scanner(System.in);
-//some
+
         while (true) {
             printMenu();
             String command = scanner.nextLine();
@@ -44,36 +42,31 @@ public class Main {
         System.out.println("Введите название блюда:");
         String dishName = scanner.nextLine();
         dc.addNewDish(dishType, dishName);
-        //dc.printAllDishesWithType();
     }
 
     private static void generateDishCombo() {
         System.out.println("Начинаем конструировать обед...");
-
         System.out.println("Введите количество наборов, которые нужно сгенерировать:");
         int numberOfCombos = scanner.nextInt();
         scanner.nextLine();
-
-        System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). Для завершения ввода введите пустую строку");
-
+        System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). " +
+                "Для завершения ввода введите пустую строку");
         ArrayList<String> userTypes = new ArrayList<>();
-
-        //реализуйте ввод типов блюд
-
 
         while (true) {
             String dishTypes = scanner.nextLine();
-            if(dc.checkType(dishTypes)) {
-                userTypes.add(dishTypes);
-            } else if (dishTypes.isEmpty()) {
+            if (dishTypes.isEmpty()) {
                 break;
+            } else if (dc.checkType(dishTypes)) {
+                userTypes.add(dishTypes);
             } else {
                 System.out.println("Такого типа блюд нет, пожалуйста введите другой тип.");
             }
         }
-        ArrayList<ArrayList<String>> combosList = dc.genirateCombo(numberOfCombos, userTypes);
-        for(int i = 0; i < combosList.size(); i++){
-            System.out.println("Комбо " + (i+1));
+
+        ArrayList<ArrayList<String>> combosList = dc.generateCombo(numberOfCombos, userTypes);
+        for (int i = 0; i < combosList.size(); i++) {
+            System.out.println("Комбо " + (i + 1));
             System.out.println(combosList.get(i));
         }
     }
